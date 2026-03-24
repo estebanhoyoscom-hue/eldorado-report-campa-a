@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campaña El Dorado — trii Perú · Feb–Mar 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+  <style>
+    :root {
+      --bg:          rgb(25, 25, 25);
+      --card:        rgb(10, 10, 10);
+      --border:      rgb(51, 51, 51);
+      --border-light:rgb(38, 38, 38);
+      --fg:          rgb(227, 227, 227);
+      --fg-muted:    rgb(163, 163, 163);
+      --fg-dim:      rgb(102, 102, 102);
+      --primary:     rgb(2, 251, 126);
+      --primary-a15: rgba(2, 251, 126, 0.15);
+      --primary-a40: rgba(2, 251, 126, 0.40);
+      --primary-a70: rgba(2, 251, 126, 0.70);
+      --yellow:      rgb(247, 199, 55);
+      --yellow-a15:  rgba(247, 199, 55, 0.15);
+      --yellow-a40:  rgba(247, 199, 55, 0.40);
+      --yellow-a70:  rgba(247, 199, 55, 0.70);
+      --orange:      rgb(255, 127, 0);
+      --orange-a15:  rgba(255, 127, 0, 0.15);
+      --blue:        rgb(100, 180, 255);
+      --blue-a15:    rgba(100, 180, 255, 0.15);
+      --radius:      0.75rem;
+      --font:        "DM Sans", sans-serif;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font);
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ── Header ─────────────────────────────────────── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 1.25rem 0;
+      position: sticky;
+      top: 0;
+      background: rgba(25,25,25,0.92);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+    }
+    .header-brand img { height: 26px; }
+    .sep {
+      width: 1px;
+      height: 20px;
+      background: var(--border);
+    }
+    .campaign-label {
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: var(--fg-muted);
+    }
+    .header-date {
+      font-size: 0.8125rem;
+      color: var(--fg-dim);
+    }
+
+    /* ── Canal chips ────────────────────────────────── */
+    .canal-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .canal-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.875rem;
+      border-radius: 999px;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      border: 1px solid;
+    }
+    .canal-chip.email {
+      background: rgba(100,180,255,0.08);
+      border-color: rgba(100,180,255,0.3);
+      color: var(--blue);
+    }
+    .canal-chip.push {
+      background: rgba(255,127,0,0.08);
+      border-color: rgba(255,127,0,0.3);
+      color: var(--orange);
+    }
+    .canal-chip .chip-icon { font-size: 0.875rem; }
+    .canal-chip .chip-date { opacity: 0.65; font-size: 0.75rem; }
+
+    /* ── Email funnel bar ───────────────────────────── */
+    .email-funnel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.375rem 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .funnel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.125rem;
+    }
+    .funnel-title {
+      font-size: 0.8125rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--fg-dim);
+    }
+    .funnel-date {
+      font-size: 0.8125rem;
+      color: var(--fg-dim);
+    }
+    .funnel-steps {
+      display: flex;
+      gap: 0.875rem;
+      align-items: stretch;
+    }
+    .funnel-step {
+      flex: 1;
+      padding: 0.875rem 1rem;
+      background: rgba(38,38,38,0.4);
+      border-radius: 0.5rem;
+      position: relative;
+    }
+    .funnel-step .fs-label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--fg-dim);
+      margin-bottom: 0.375rem;
+    }
+    .funnel-step .fs-value {
+      font-size: 1.375rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--fg);
+    }
+    .funnel-step .fs-pct {
+      font-size: 0.8125rem;
+      color: var(--fg-muted);
+      margin-top: 0.25rem;
+    }
+    .funnel-step .fs-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      background: var(--blue);
+      border-radius: 0 0 0.5rem 0.5rem;
+      transition: width 0.6s ease;
+    }
+
+    /* ── Hero ───────────────────────────────────────── */
+    .hero {
+      padding: 3.5rem 0 2.5rem;
+    }
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--primary);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .hero-eyebrow span {
+      font-size: 0.8125rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--primary);
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 0.625rem;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--primary);
+    }
+    .hero p {
+      font-size: 1rem;
+      color: var(--fg-muted);
+      margin-bottom: 2.5rem;
+      max-width: 560px;
+    }
+
+    /* ── KPI Grid ───────────────────────────────────── */
+    .kpi-grid {
+      display: grid;
+      gap: 0.875rem;
+    }
+    .kpi-4 { grid-template-columns: repeat(4, 1fr); }
+    .kpi-3 { grid-template-columns: repeat(3, 1fr); }
+
+    .kpi-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.375rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.375rem;
+    }
+    .kpi-card .kpi-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--fg-dim);
+    }
+    .kpi-card .kpi-value {
+      font-size: 1.875rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--fg);
+    }
+    .kpi-card .kpi-value.green { color: var(--primary); }
+    .kpi-card .kpi-value.yellow { color: var(--yellow); }
+    .kpi-card .kpi-sub {
+      font-size: 0.8125rem;
+      color: var(--fg-muted);
+    }
+    .kpi-card .kpi-sub .up {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    /* ── Section ────────────────────────────────────── */
+    .section {
+      padding: 3rem 0;
+      border-top: 1px solid var(--border);
+    }
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      gap: 1rem;
+    }
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .section-title h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .badge.green {
+      background: rgba(2, 251, 126, 0.1);
+      color: var(--primary);
+      border: 1px solid rgba(2, 251, 126, 0.3);
+    }
+    .badge.yellow {
+      background: rgba(247, 199, 55, 0.1);
+      color: var(--yellow);
+      border: 1px solid rgba(247, 199, 55, 0.3);
+    }
+    .section-desc {
+      font-size: 0.9375rem;
+      color: var(--fg-muted);
+      text-align: right;
+      max-width: 360px;
+    }
+
+    /* ── Charts ─────────────────────────────────────── */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.875rem;
+      margin-top: 1.25rem;
+    }
+    .chart-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+    }
+    .chart-card.full { grid-column: 1 / -1; }
+    .chart-label {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--fg);
+      margin-bottom: 0.2rem;
+    }
+    .chart-sublabel {
+      font-size: 0.75rem;
+      color: var(--fg-dim);
+      margin-bottom: 1.125rem;
+    }
+    .chart-wrap { position: relative; }
+    .chart-wrap.h260 { height: 260px; }
+    .chart-wrap.h200 { height: 200px; }
+
+    /* ── CTA notice ──────────────────────────────────── */
+    .cta-notice {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      background: rgba(255, 127, 0, 0.06);
+      border: 1px solid rgba(255, 127, 0, 0.25);
+      border-radius: var(--radius);
+      padding: 1.125rem 1.375rem;
+      margin: 2rem 0;
+    }
+    .cta-notice-icon {
+      font-size: 1.25rem;
+      flex-shrink: 0;
+      line-height: 1.5;
+    }
+    .cta-notice-body p {
+      font-size: 0.875rem;
+      color: var(--fg-muted);
+      line-height: 1.6;
+    }
+    .cta-notice-body strong { color: var(--orange); }
+    .cta-notice-body code {
+      background: rgba(255,255,255,0.07);
+      padding: 0.15em 0.45em;
+      border-radius: 0.25rem;
+      font-size: 0.8125rem;
+      color: var(--yellow);
+    }
+
+    /* ── CTA legend ──────────────────────────────────── */
+    .cta-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.875rem;
+    }
+    .cta-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding: 0.25rem 0.625rem;
+      background: rgba(255, 127, 0, 0.12);
+      border: 1px solid rgba(255, 127, 0, 0.3);
+      border-radius: 999px;
+      font-size: 0.75rem;
+      color: var(--orange);
+      font-weight: 500;
+    }
+    .cta-pill::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--orange);
+      flex-shrink: 0;
+    }
+
+    /* ── Insight callout ─────────────────────────────── */
+    .insight-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.875rem;
+      margin-bottom: 1.5rem;
+    }
+    .insight-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.125rem 1.25rem;
+      border-left: 3px solid;
+    }
+    .insight-card.green  { border-left-color: var(--primary); }
+    .insight-card.yellow { border-left-color: var(--yellow); }
+    .insight-card.orange { border-left-color: var(--orange); }
+    .insight-card .ic-label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--fg-dim);
+      margin-bottom: 0.375rem;
+    }
+    .insight-card .ic-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+    .insight-card .ic-value.green  { color: var(--primary); }
+    .insight-card .ic-value.yellow { color: var(--yellow); }
+    .insight-card .ic-value.orange { color: var(--orange); }
+    .insight-card .ic-detail {
+      font-size: 0.8125rem;
+      color: var(--fg-muted);
+      margin-top: 0.25rem;
+    }
+
+    /* ── CTA impact table ────────────────────────────── */
+    .impact-table-wrap {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-top: 1.25rem;
+    }
+    .impact-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8125rem;
+    }
+    .impact-table th {
+      text-align: left;
+      padding: 0.75rem 1rem;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--fg-dim);
+      border-bottom: 1px solid var(--border);
+      background: rgba(38,38,38,0.5);
+    }
+    .impact-table td {
+      padding: 0.625rem 1rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--fg);
+    }
+    .impact-table tr:last-child td { border-bottom: none; }
+    .impact-table .row-pre td {
+      color: var(--fg-dim);
+      font-style: italic;
+    }
+    .impact-table .highlight { font-weight: 700; }
+    .impact-table .highlight.green  { color: var(--primary); }
+    .impact-table .highlight.yellow { color: var(--yellow); }
+    .impact-table .window-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .impact-table .window-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ── Footer ─────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 0 2rem;
+    }
+    footer p {
+      font-size: 0.75rem;
+      color: var(--fg-dim);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="header-inner">
+      <div class="header-brand">
+        <img src="https://trii.co/static/icons/trii_logo.svg" alt="trii">
+        <div class="sep"></div>
+        <span class="campaign-label">Campaña El Dorado · Perú</span>
+      </div>
+      <span class="header-date">26 feb – 24 mar 2026</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-eyebrow">
+        <div class="dot"></div>
+        <span>Reporte de resultados</span>
+      </div>
+      <h1>Resultados <em>El Dorado</em></h1>
+      <p>La campaña arrancó el <strong style="color:var(--fg)">26 de febrero</strong> con el primer push y correo masivo. Aquí va el resumen de lo que pasó.</p>
+
+      <!-- Canales usados -->
+      <div class="canal-row">
+        <span class="canal-chip email"><span class="chip-icon">✉️</span> Email masivo <span class="chip-date">Feb 27</span></span>
+        <span class="canal-chip push"><span class="chip-icon">🔔</span> Push notification <span class="chip-date">Feb 26</span></span>
+        <span class="canal-chip push"><span class="chip-icon">🔔</span> Push notification <span class="chip-date">Mar 3</span></span>
+        <span class="canal-chip push"><span class="chip-icon">🔔</span> Push notification <span class="chip-date">Mar 10</span></span>
+        <span class="canal-chip email"><span class="chip-icon">✉️</span> Email + Push <span class="chip-date">Mar 13</span></span>
+      </div>
+
+      <!-- Email funnel card -->
+      <div class="email-funnel">
+        <div class="funnel-header">
+          <span class="funnel-title">Email del 27 de febrero — Funnel</span>
+          <span class="funnel-date">Segundo toque — 27 feb</span>
+        </div>
+        <div class="funnel-steps">
+          <div class="funnel-step">
+            <div class="fs-label">Enviados</div>
+            <div class="fs-value">126,675</div>
+            <div class="fs-pct">100%</div>
+            <div class="fs-bar" style="width:100%"></div>
+          </div>
+          <div class="funnel-step">
+            <div class="fs-label">Entregados</div>
+            <div class="fs-value">121,805</div>
+            <div class="fs-pct">96.2%</div>
+            <div class="fs-bar" style="width:96.2%"></div>
+          </div>
+          <div class="funnel-step">
+            <div class="fs-label">Abrieron</div>
+            <div class="fs-value">14,738</div>
+            <div class="fs-pct">12.1% open rate</div>
+            <div class="fs-bar" style="width:12.1%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="kpi-grid kpi-4" id="hero-kpis"></div>
+    </section>
+
+    <!-- ETFPERUD -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-title">
+          <h2>ETFPERUD</h2>
+          <span class="badge green">USD</span>
+        </div>
+        <p class="section-desc">ETF denominado en dólares. La mayor comunidad de inversores de los dos.</p>
+      </div>
+      <div class="kpi-grid kpi-3" id="perud-kpis"></div>
+      <div class="charts-grid">
+        <div class="chart-card full">
+          <div class="chart-label">Inversionistas acumulados</div>
+          <div class="chart-sublabel">Crecimiento total de la comunidad durante la campaña</div>
+          <div class="chart-wrap h260"><canvas id="perud-acum"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-label">Nuevos inversionistas por día</div>
+          <div class="chart-sublabel">Primeras operaciones registradas</div>
+          <div class="chart-wrap h200"><canvas id="perud-nuevos"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-label">Volumen diario</div>
+          <div class="chart-sublabel">Monto operado en USD</div>
+          <div class="chart-wrap h200"><canvas id="perud-vol"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ETFPESOV -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-title">
+          <h2>ETFPESOV</h2>
+          <span class="badge yellow">PEN</span>
+        </div>
+        <p class="section-desc">ETF denominado en soles. Crecimiento sostenido semana a semana.</p>
+      </div>
+      <div class="kpi-grid kpi-3" id="pesov-kpis"></div>
+      <div class="charts-grid">
+        <div class="chart-card full">
+          <div class="chart-label">Inversionistas acumulados</div>
+          <div class="chart-sublabel">Crecimiento total de la comunidad durante la campaña</div>
+          <div class="chart-wrap h260"><canvas id="pesov-acum"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-label">Nuevos inversionistas por día</div>
+          <div class="chart-sublabel">Primeras operaciones registradas</div>
+          <div class="chart-wrap h200"><canvas id="pesov-nuevos"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-label">Volumen diario</div>
+          <div class="chart-sublabel">Monto operado en USD</div>
+          <div class="chart-wrap h200"><canvas id="pesov-vol"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Impacto por CTA -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-title">
+          <h2>Impacto por CTA</h2>
+          <span class="badge" style="background:rgba(255,127,0,0.1);color:var(--orange);border:1px solid rgba(255,127,0,0.3)">Atribución</span>
+        </div>
+        <p class="section-desc">Nuevos inversores y actividad por ventana de cada llamado a la acción.</p>
+      </div>
+
+      <!-- Insight cards -->
+      <div class="insight-row">
+        <div class="insight-card green">
+          <div class="ic-label">Nuevos inversores · campaña</div>
+          <div class="ic-value green">67</div>
+          <div class="ic-detail">46 ETFPERUD + 21 ETFPESOV · primera vez en El Dorado</div>
+        </div>
+        <div class="insight-card orange">
+          <div class="ic-label">CTA más efectivo</div>
+          <div class="ic-value orange">Push Mar 3</div>
+          <div class="ic-detail">27 nuevos inversores (21 + 6) · mayor adquisición</div>
+        </div>
+        <div class="insight-card yellow">
+          <div class="ic-label">Mayor volumen en una ventana</div>
+          <div class="ic-value yellow">$74.2k</div>
+          <div class="ic-detail">Email + Push Mar 13 · $63.2k PERUD + $10.9k PESOV</div>
+        </div>
+      </div>
+
+      <!-- Charts: Nuevos inversores + Volumen por CTA -->
+      <div class="charts-grid">
+        <div class="chart-card">
+          <div class="chart-label">Nuevos inversores por CTA</div>
+          <div class="chart-sublabel">Primera inversión en El Dorado ETFs</div>
+          <div class="chart-wrap h260"><canvas id="cta-nuevos"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-label">Volumen USD por ventana</div>
+          <div class="chart-sublabel">Monto total operado en cada período</div>
+          <div class="chart-wrap h260"><canvas id="cta-vol"></canvas></div>
+        </div>
+      </div>
+
+      <!-- Impact table -->
+      <div class="impact-table-wrap" style="margin-top:1.25rem">
+        <table class="impact-table">
+          <thead>
+            <tr>
+              <th>Ventana</th>
+              <th>ETF</th>
+              <th>Órdenes</th>
+              <th>Usuarios activos</th>
+              <th>Volumen USD</th>
+              <th>Nuevos inversores</th>
+            </tr>
+          </thead>
+          <tbody id="impact-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- CTA notice -->
+    <div class="cta-notice">
+      <div class="cta-notice-icon">📍</div>
+      <div class="cta-notice-body">
+        <p>
+          <strong>Llamados a la acción marcados en las gráficas</strong> — Las líneas verticales muestran cada toque de campaña.
+          Para agregar más o editar etiquetas, actualiza el array <code>CAMPAIGN_CTAS</code> al inicio del script.
+        </p>
+        <div class="cta-legend" id="cta-legend"></div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>trii · Reporte interno · Datos: BigQuery ETL.orders · trii-bi · Generado el 24 mar 2026</p>
+  </div>
+</footer>
+
+<script>
+// ================================================================
+// 📍 CTAs — Llamados a la acción de la campaña El Dorado
+// ================================================================
+const CAMPAIGN_CTAS = [
+  { date: "2026-02-26", label: "🔔 Push" },
+  { date: "2026-02-27", label: "✉️ Email" },
+  { date: "2026-03-03", label: "🔔 Push" },
+  { date: "2026-03-10", label: "🔔 Push" },
+  { date: "2026-03-13", label: "✉️ Email + 🔔 Push" },
+];
+
+// ================================================================
+// 📊 Funnel del email del 27 de febrero
+// Cuando tengas el dato de "invirtieron", actualiza aquí:
+// ================================================================
+const EMAIL_FUNNEL = {
+  enviados:   126675,
+  entregados: 121805,
+  abrieron:   14738,   // 12.1% de 121,805
+  invirtieron: null,   // ← pendiente: resultado del query de atribución
+};
+
+// ── Data bruta ──────────────────────────────────────────────────
+// [dia, total_ordenes, num_stocks, vol_usd, usuarios, nuevos, acumulados]
+const PERUD = [
+  ["2026-02-09", 13, 2155, 53023.99, 13, 10, 1231],
+  ["2026-02-10", 18,  953, 23837.50, 13,  8, 1239],
+  ["2026-02-11",  9,  331,  8154.79,  9,  5, 1244],
+  ["2026-02-12", 21, 1179, 29173.51, 16, 10, 1254],
+  ["2026-02-13",  9,  317,  7829.94,  6,  4, 1258],
+  ["2026-02-16",  7,  493, 11693.07,  7,  6, 1264],
+  ["2026-02-17",  8,  268,  6200.25,  8,  4, 1268],
+  ["2026-02-18",  8,  122,  2849.90,  8,  5, 1273],
+  ["2026-02-19",  6,   28,   657.21,  6,  5, 1278],
+  ["2026-02-20",  7,  131,  3126.88,  7,  4, 1282],
+  ["2026-02-23", 14,  258,  6227.18, 13, 10, 1292],
+  ["2026-02-24",  4,   84,  2026.20,  4,  2, 1294],
+  ["2026-02-25",  9,  167,  4128.28,  9,  5, 1299],
+  ["2026-02-26", 10,  382,  9438.37, 10,  8, 1307],
+  ["2026-02-27",  7,  313,  7827.93,  6,  1, 1308],
+  ["2026-03-02", 12,  488, 12280.80,  9,  5, 1313],
+  ["2026-03-03", 17,  600, 14217.30, 17, 11, 1324],
+  ["2026-03-04",  7,  259,  6182.15,  7,  2, 1326],
+  ["2026-03-05",  8,  448, 10570.74,  8,  7, 1333],
+  ["2026-03-06", 13,  455, 10303.90, 12,  7, 1340],
+  ["2026-03-09",  9,  367,  8103.28,  8,  5, 1345],
+  ["2026-03-10", 17,  569, 13143.72, 16, 11, 1356],
+  ["2026-03-11",  3,   44,  1028.42,  3,  2, 1358],
+  ["2026-03-12", 12,  356,  8053.20, 11,  6, 1364],
+  ["2026-03-13",  7, 1794, 39565.52,  7,  4, 1368],
+  ["2026-03-16",  7,  275,  6118.14,  7,  2, 1370],
+  ["2026-03-17",  2,   54,  1209.60,  2,  2, 1372],
+  ["2026-03-18",  6,   83,  1836.85,  6,  1, 1373],
+  ["2026-03-19",  5,  104,  2139.60,  5,  3, 1376],
+  ["2026-03-20",  7,  228,  4746.90,  7,  2, 1378],
+  ["2026-03-23", 14,  262,  5462.53, 12,  3, 1381],
+  ["2026-03-24",  2,  104,  2172.56,  2,  0, 1381],
+];
+
+const PESOV = [
+  ["2026-02-10",  3,  49,  1612.40, 3, 2, 436],
+  ["2026-02-11",  2,  23,   757.28, 2, 2, 438],
+  ["2026-02-12",  4, 319, 10524.21, 4, 3, 441],
+  ["2026-02-16",  7, 244,  8080.71, 5, 4, 445],
+  ["2026-02-17",  2,  25,   826.59, 2, 1, 446],
+  ["2026-02-18",  4, 106,  3500.71, 4, 2, 448],
+  ["2026-02-19",  1, 100,  3300.00, 1, 0, 448],
+  ["2026-02-20",  3,  69,  2280.04, 3, 3, 451],
+  ["2026-02-23",  6, 140,  4620.29, 6, 5, 456],
+  ["2026-02-24",  3,  34,  1126.29, 3, 3, 459],
+  ["2026-02-25",  4,  30,   990.65, 3, 3, 462],
+  ["2026-02-26",  1,  14,   463.24, 1, 1, 463],
+  ["2026-02-27",  6, 100,  3307.24, 6, 6, 469],
+  ["2026-03-02",  5,  15,   494.97, 4, 3, 472],
+  ["2026-03-03",  3,  45,  1480.68, 3, 3, 475],
+  ["2026-03-04",  3,  26,   852.65, 3, 3, 478],
+  ["2026-03-05",  2,  68,  2217.18, 2, 1, 479],
+  ["2026-03-06",  1,  25,   809.56, 1, 1, 480],
+  ["2026-03-09",  1,   1,    32.35, 1, 1, 481],
+  ["2026-03-10",  6,  66,  2145.00, 4, 3, 484],
+  ["2026-03-11",  3, 124,  4027.35, 3, 2, 486],
+  ["2026-03-12",  5, 285,  9198.03, 5, 4, 490],
+  ["2026-03-13",  2,  69,  2246.56, 1, 1, 491],
+  ["2026-03-16",  2,   5,   162.79, 2, 1, 492],
+  ["2026-03-17",  1,  19,   615.82, 1, 1, 493],
+  ["2026-03-18",  2,  27,   873.53, 2, 1, 494],
+  ["2026-03-19",  2,  52,  1682.35, 2, 2, 496],
+  ["2026-03-20",  2,  31,  1001.12, 2, 1, 497],
+  ["2026-03-23",  2,  79,  2547.71, 2, 2, 499],
+  ["2026-03-24",  3,  57,  1844.12, 2, 1, 500],
+];
+
+// ── Helpers ─────────────────────────────────────────────────────
+const MONTHS = ["","ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+
+function fmtDate(iso) {
+  const parts = iso.match(/(\d{4})-(\d{2})-(\d{2})/);
+  return `${parseInt(parts[3])} ${MONTHS[parseInt(parts[2])]}`;
+}
+
+function fmtN(n) {
+  return new Intl.NumberFormat("es-PE").format(Math.round(n));
+}
+
+function fmtUSD(n) {
+  if (n >= 1000) return "$" + (n / 1000).toFixed(1) + "k";
+  return "$" + Math.round(n);
+}
+
+function fmtUSDFull(n) {
+  return "$" + new Intl.NumberFormat("es-PE").format(Math.round(n));
+}
+
+function col(data, i) {
+  return data.reduce((a, r) => a + r[i], 0);
+}
+
+// ── KPI compute ─────────────────────────────────────────────────
+const pLabels  = PERUD.map(r => fmtDate(r[0]));
+const soLabels = PESOV.map(r => fmtDate(r[0]));
+
+// ── Datos verificados desde BigQuery (queries de atribución) ────
+// Base histórica pre-campaña (< 2026-02-26)
+const PRE = {
+  perud: { inversores: 1155, ordenes: 2644, vol: 1201012.29 },
+  pesov: { inversores:  439, ordenes:  788, vol:  382649.35 },
+};
+// Campaña (Feb 26 – Mar 24) — de query 1 y query 2
+const CAMP = {
+  perud: { nuevos: 46, ordenes: 165, vol: 164401.51, acum: 1155 + 46 },
+  pesov: { nuevos: 21, ordenes:  52, vol:  36001.39,  acum:  439 + 21 },
+  dias: 19,
+};
+// Orgánico del año (1 ene – 25 feb) — para comparar crecimiento
+const ORG = {
+  perud: { ordenes: 594, usuarios: 369, vol: 536148.77 },
+  pesov: { ordenes: 126, usuarios: 101, vol:  84345.41 },
+};
+
+// ── Render KPI cards ────────────────────────────────────────────
+function renderKPIs(id, cards) {
+  document.getElementById(id).innerHTML = cards.map(c => `
+    <div class="kpi-card">
+      <div class="kpi-label">${c.label}</div>
+      <div class="kpi-value ${c.color || ''}">${c.value}</div>
+      ${c.sub ? `<div class="kpi-sub">${c.sub}</div>` : ""}
+    </div>
+  `).join("");
+}
+
+const orgOrd = ORG.perud.ordenes + ORG.pesov.ordenes;
+const orgVol = ORG.perud.vol + ORG.pesov.vol;
+const campOrd = CAMP.perud.ordenes + CAMP.pesov.ordenes;
+const campVol = CAMP.perud.vol + CAMP.pesov.vol;
+
+renderKPIs("hero-kpis", [
+  {
+    label: "Nuevos inversores · campaña",
+    value: `+${fmtN(CAMP.perud.nuevos + CAMP.pesov.nuevos)}`,
+    color: "green",
+    sub: "primera vez en El Dorado ETFs",
+  },
+  {
+    label: "Crecimiento en órdenes",
+    value: `+${(campOrd / orgOrd * 100).toFixed(1)}%`,
+    color: "green",
+    sub: `+${fmtN(campOrd)} sobre ${fmtN(orgOrd)} del año`,
+  },
+  {
+    label: "Crecimiento en volumen",
+    value: `+${(campVol / orgVol * 100).toFixed(1)}%`,
+    color: "green",
+    sub: `+${fmtUSDFull(campVol)} sobre ${fmtUSDFull(orgVol)} del año`,
+  },
+  {
+    label: "Días de campaña",
+    value: fmtN(CAMP.dias),
+    sub: "26 feb → 24 mar · días hábiles",
+  },
+]);
+
+renderKPIs("perud-kpis", [
+  {
+    label: "Nuevos inversionistas",
+    value: `+${fmtN(CAMP.perud.nuevos)}`,
+    color: "green",
+    sub: `<span class="up">↑${(CAMP.perud.nuevos / PRE.perud.inversores * 100).toFixed(1)}%</span> vs ${fmtN(PRE.perud.inversores)} base histórica`,
+  },
+  {
+    label: "Órdenes · crecimiento vs año",
+    value: `+${(CAMP.perud.ordenes / ORG.perud.ordenes * 100).toFixed(1)}%`,
+    color: "green",
+    sub: `+${fmtN(CAMP.perud.ordenes)} sobre ${fmtN(ORG.perud.ordenes)} del año`,
+  },
+  {
+    label: "Volumen · crecimiento vs año",
+    value: `+${(CAMP.perud.vol / ORG.perud.vol * 100).toFixed(1)}%`,
+    color: "green",
+    sub: `+${fmtUSDFull(CAMP.perud.vol)} sobre ${fmtUSDFull(ORG.perud.vol)} del año`,
+  },
+]);
+
+renderKPIs("pesov-kpis", [
+  {
+    label: "Nuevos inversionistas",
+    value: `+${fmtN(CAMP.pesov.nuevos)}`,
+    color: "yellow",
+    sub: `<span class="up">↑${(CAMP.pesov.nuevos / PRE.pesov.inversores * 100).toFixed(1)}%</span> vs ${fmtN(PRE.pesov.inversores)} base histórica`,
+  },
+  {
+    label: "Órdenes · crecimiento vs año",
+    value: `+${(CAMP.pesov.ordenes / ORG.pesov.ordenes * 100).toFixed(1)}%`,
+    color: "yellow",
+    sub: `+${fmtN(CAMP.pesov.ordenes)} sobre ${fmtN(ORG.pesov.ordenes)} del año`,
+  },
+  {
+    label: "Volumen · crecimiento vs año",
+    value: `+${(CAMP.pesov.vol / ORG.pesov.vol * 100).toFixed(1)}%`,
+    color: "yellow",
+    sub: `+${fmtUSDFull(CAMP.pesov.vol)} sobre ${fmtUSDFull(ORG.pesov.vol)} del año`,
+  },
+]);
+
+// ── CTA annotations builder ─────────────────────────────────────
+function buildAnnotations(labels) {
+  const out = {};
+  CAMPAIGN_CTAS.forEach((cta, i) => {
+    const lbl = fmtDate(cta.date);
+    if (!labels.includes(lbl)) return;
+    out[`cta_${i}`] = {
+      type: "line",
+      scaleID: "x",
+      value: lbl,
+      borderColor: "rgb(255, 127, 0)",
+      borderWidth: 2,
+      borderDash: [6, 4],
+      label: {
+        content: cta.label,
+        display: true,
+        position: "start",
+        yAdjust: -4,
+        backgroundColor: "rgba(255, 127, 0, 0.9)",
+        color: "#fff",
+        font: { family: "'DM Sans'", size: 11, weight: "700" },
+        padding: { x: 8, y: 5 },
+        borderRadius: 4,
+      },
+    };
+  });
+  return out;
+}
+
+// CTA legend
+function renderCTALegend() {
+  const el = document.getElementById("cta-legend");
+  if (!CAMPAIGN_CTAS.length) return;
+  el.innerHTML = CAMPAIGN_CTAS.map(c =>
+    `<span class="cta-pill">${c.label} · ${fmtDate(c.date)}</span>`
+  ).join("");
+}
+renderCTALegend();
+
+// ── Chart factory ───────────────────────────────────────────────
+Chart.defaults.color = "rgb(102, 102, 102)";
+Chart.defaults.font.family = "'DM Sans'";
+Chart.defaults.font.size = 11;
+
+const GRID = "rgba(51,51,51,0.7)";
+
+function makeChart(id, type, labels, datasets, opts = {}) {
+  const annotations = buildAnnotations(labels);
+  return new Chart(document.getElementById(id), {
+    type,
+    data: { labels, datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: "index", intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: "rgb(10,10,10)",
+          borderColor: "rgb(51,51,51)",
+          borderWidth: 1,
+          titleColor: "rgb(227,227,227)",
+          bodyColor: "rgb(163,163,163)",
+          padding: 12,
+          callbacks: opts.tooltipCallbacks || {},
+        },
+        annotation: { annotations },
+      },
+      scales: {
+        x: {
+          grid: { color: GRID },
+          ticks: { color: "rgb(102,102,102)", maxRotation: 50, font: { size: 10 } },
+          border: { color: GRID },
+        },
+        y: {
+          grid: { color: GRID },
+          ticks: {
+            color: "rgb(102,102,102)",
+            font: { size: 10 },
+            callback: opts.yFmt || undefined,
+          },
+          border: { dash: [4,4], color: "transparent" },
+        },
+      },
+      elements: {
+        bar: { borderRadius: 3 },
+      },
+      ...( opts.extra || {} ),
+    },
+  });
+}
+
+// ── ETFPERUD — Acumulados ───────────────────────────────────────
+makeChart("perud-acum", "line", pLabels,
+  [{
+    label: "Inversionistas",
+    data: PERUD.map(r => r[6]),
+    borderColor: "rgb(2,251,126)",
+    backgroundColor: "rgba(2,251,126,0.07)",
+    fill: true,
+    borderWidth: 2.5,
+    pointRadius: 3,
+    pointHoverRadius: 5,
+    pointBackgroundColor: "rgb(2,251,126)",
+    tension: 0.35,
+  }],
+  {
+    yFmt: v => fmtN(v),
+    tooltipCallbacks: { label: ctx => ` ${fmtN(ctx.raw)} inversores acum.` },
+  }
+);
+
+// ── ETFPERUD — Nuevos ───────────────────────────────────────────
+makeChart("perud-nuevos", "bar", pLabels,
+  [{
+    label: "Nuevos",
+    data: PERUD.map(r => r[5]),
+    backgroundColor: "rgba(2,251,126,0.65)",
+    hoverBackgroundColor: "rgba(2,251,126,0.9)",
+    borderSkipped: false,
+  }],
+  {
+    tooltipCallbacks: { label: ctx => ` ${ctx.raw} nuevos inversores` },
+  }
+);
+
+// ── ETFPERUD — Volumen ──────────────────────────────────────────
+makeChart("perud-vol", "bar", pLabels,
+  [{
+    label: "Volumen USD",
+    data: PERUD.map(r => r[3]),
+    backgroundColor: "rgba(2,251,126,0.35)",
+    hoverBackgroundColor: "rgba(2,251,126,0.65)",
+    borderSkipped: false,
+  }],
+  {
+    yFmt: v => fmtUSD(v),
+    tooltipCallbacks: { label: ctx => ` ${fmtUSDFull(ctx.raw)}` },
+  }
+);
+
+// ── ETFPESOV — Acumulados ───────────────────────────────────────
+makeChart("pesov-acum", "line", soLabels,
+  [{
+    label: "Inversionistas",
+    data: PESOV.map(r => r[6]),
+    borderColor: "rgb(247,199,55)",
+    backgroundColor: "rgba(247,199,55,0.07)",
+    fill: true,
+    borderWidth: 2.5,
+    pointRadius: 3,
+    pointHoverRadius: 5,
+    pointBackgroundColor: "rgb(247,199,55)",
+    tension: 0.35,
+  }],
+  {
+    yFmt: v => fmtN(v),
+    tooltipCallbacks: { label: ctx => ` ${fmtN(ctx.raw)} inversores acum.` },
+  }
+);
+
+// ── ETFPESOV — Nuevos ───────────────────────────────────────────
+makeChart("pesov-nuevos", "bar", soLabels,
+  [{
+    label: "Nuevos",
+    data: PESOV.map(r => r[5]),
+    backgroundColor: "rgba(247,199,55,0.65)",
+    hoverBackgroundColor: "rgba(247,199,55,0.9)",
+    borderSkipped: false,
+  }],
+  {
+    tooltipCallbacks: { label: ctx => ` ${ctx.raw} nuevos inversores` },
+  }
+);
+
+// ── ETFPESOV — Volumen ──────────────────────────────────────────
+makeChart("pesov-vol", "bar", soLabels,
+  [{
+    label: "Volumen USD",
+    data: PESOV.map(r => r[3]),
+    backgroundColor: "rgba(247,199,55,0.35)",
+    hoverBackgroundColor: "rgba(247,199,55,0.65)",
+    borderSkipped: false,
+  }],
+  {
+    yFmt: v => fmtUSD(v),
+    tooltipCallbacks: { label: ctx => ` ${fmtUSDFull(ctx.raw)}` },
+  }
+);
+
+// ================================================================
+// 📊 CTA IMPACT — Datos de queries de atribución
+// ================================================================
+const CTA_IMPACT = [
+  { label: "Pre-campaña\n(9-25 feb)",     pre: true,  perud: { ord: 133, usr: 99, vol: 158928.7, nuevos: 99 }, pesov: { ord: 39, usr: 32, vol: 37619.16, nuevos: 32 } },
+  { label: "Push feb 26\n+ Email feb 27", pre: false, perud: { ord: 29,  usr: 22, vol: 29547.1,  nuevos: 5  }, pesov: { ord: 12, usr: 11, vol: 4265.44,  nuevos: 5  } },
+  { label: "Push\nmar 3",                 pre: false, perud: { ord: 54,  usr: 48, vol: 49377.37, nuevos: 21 }, pesov: { ord: 10, usr: 10, vol: 5392.41,  nuevos: 6  } },
+  { label: "Push\nmar 10",                pre: false, perud: { ord: 32,  usr: 28, vol: 22225.34, nuevos: 11 }, pesov: { ord: 14, usr: 12, vol: 15370.38, nuevos: 4  } },
+  { label: "Email + Push\nmar 13",        pre: false, perud: { ord: 50,  usr: 42, vol: 63251.7,  nuevos: 9  }, pesov: { ord: 16, usr: 13, vol: 10974.0,  nuevos: 6  } },
+];
+
+const ctaLabels = CTA_IMPACT.map(c => c.label);
+
+// ── Chart: Nuevos inversores por CTA ────────────────────────────
+new Chart(document.getElementById("cta-nuevos"), {
+  type: "bar",
+  data: {
+    labels: ctaLabels,
+    datasets: [
+      {
+        label: "ETFPERUD",
+        data: CTA_IMPACT.map(c => c.pre ? null : c.perud.nuevos),
+        backgroundColor: "rgba(2,251,126,0.7)",
+        hoverBackgroundColor: "rgba(2,251,126,0.9)",
+        borderRadius: 3,
+        borderSkipped: false,
+      },
+      {
+        label: "ETFPESOV",
+        data: CTA_IMPACT.map(c => c.pre ? null : c.pesov.nuevos),
+        backgroundColor: "rgba(247,199,55,0.7)",
+        hoverBackgroundColor: "rgba(247,199,55,0.9)",
+        borderRadius: 3,
+        borderSkipped: false,
+      },
+    ],
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: { mode: "index", intersect: false },
+    plugins: {
+      legend: {
+        display: true,
+        position: "top",
+        align: "end",
+        labels: {
+          boxWidth: 10,
+          boxHeight: 10,
+          borderRadius: 2,
+          useBorderRadius: true,
+          color: "rgb(163,163,163)",
+          font: { family: "'DM Sans'", size: 11 },
+          padding: 12,
+        },
+      },
+      tooltip: {
+        backgroundColor: "rgb(10,10,10)",
+        borderColor: "rgb(51,51,51)",
+        borderWidth: 1,
+        titleColor: "rgb(227,227,227)",
+        bodyColor: "rgb(163,163,163)",
+        padding: 12,
+        callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.raw ?? 0} nuevos` },
+      },
+    },
+    scales: {
+      x: {
+        grid: { color: GRID },
+        ticks: { color: "rgb(102,102,102)", font: { size: 10 } },
+        border: { color: GRID },
+      },
+      y: {
+        grid: { color: GRID },
+        ticks: { color: "rgb(102,102,102)", font: { size: 10 } },
+        border: { dash: [4,4], color: "transparent" },
+      },
+    },
+  },
+});
+
+// ── Chart: Volumen USD por CTA ──────────────────────────────────
+new Chart(document.getElementById("cta-vol"), {
+  type: "bar",
+  data: {
+    labels: ctaLabels,
+    datasets: [
+      {
+        label: "ETFPERUD",
+        data: CTA_IMPACT.map(c => c.pre ? null : c.perud.vol),
+        backgroundColor: "rgba(2,251,126,0.45)",
+        hoverBackgroundColor: "rgba(2,251,126,0.7)",
+        borderRadius: 3,
+        borderSkipped: false,
+      },
+      {
+        label: "ETFPESOV",
+        data: CTA_IMPACT.map(c => c.pre ? null : c.pesov.vol),
+        backgroundColor: "rgba(247,199,55,0.45)",
+        hoverBackgroundColor: "rgba(247,199,55,0.7)",
+        borderRadius: 3,
+        borderSkipped: false,
+      },
+    ],
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: { mode: "index", intersect: false },
+    plugins: {
+      legend: {
+        display: true,
+        position: "top",
+        align: "end",
+        labels: {
+          boxWidth: 10,
+          boxHeight: 10,
+          borderRadius: 2,
+          useBorderRadius: true,
+          color: "rgb(163,163,163)",
+          font: { family: "'DM Sans'", size: 11 },
+          padding: 12,
+        },
+      },
+      tooltip: {
+        backgroundColor: "rgb(10,10,10)",
+        borderColor: "rgb(51,51,51)",
+        borderWidth: 1,
+        titleColor: "rgb(227,227,227)",
+        bodyColor: "rgb(163,163,163)",
+        padding: 12,
+        callbacks: { label: ctx => ` ${ctx.dataset.label}: ${fmtUSDFull(ctx.raw ?? 0)}` },
+      },
+    },
+    scales: {
+      x: {
+        grid: { color: GRID },
+        ticks: { color: "rgb(102,102,102)", font: { size: 10 } },
+        border: { color: GRID },
+      },
+      y: {
+        grid: { color: GRID },
+        ticks: {
+          color: "rgb(102,102,102)",
+          font: { size: 10 },
+          callback: v => fmtUSD(v),
+        },
+        border: { dash: [4,4], color: "transparent" },
+      },
+    },
+  },
+});
+
+// ── Impact table rendering ──────────────────────────────────────
+const tableData = [
+  { w: "Pre-campaña (9-25 feb)", pre: true,  etf: "ETFPERUD", ...CTA_IMPACT[0].perud },
+  { w: "Pre-campaña (9-25 feb)", pre: true,  etf: "ETFPESOV", ...CTA_IMPACT[0].pesov },
+  { w: "Push feb 26 + Email feb 27",         pre: false, etf: "ETFPERUD", ...CTA_IMPACT[1].perud },
+  { w: "Push feb 26 + Email feb 27",         pre: false, etf: "ETFPESOV", ...CTA_IMPACT[1].pesov },
+  { w: "Push mar 3",                         pre: false, etf: "ETFPERUD", ...CTA_IMPACT[2].perud },
+  { w: "Push mar 3",                         pre: false, etf: "ETFPESOV", ...CTA_IMPACT[2].pesov },
+  { w: "Push mar 10",                        pre: false, etf: "ETFPERUD", ...CTA_IMPACT[3].perud },
+  { w: "Push mar 10",                        pre: false, etf: "ETFPESOV", ...CTA_IMPACT[3].pesov },
+  { w: "Email + Push mar 13",                pre: false, etf: "ETFPERUD", ...CTA_IMPACT[4].perud },
+  { w: "Email + Push mar 13",                pre: false, etf: "ETFPESOV", ...CTA_IMPACT[4].pesov },
+];
+
+const tbody = document.getElementById("impact-tbody");
+let lastW = "";
+tableData.forEach(r => {
+  const isPerud = r.etf === "ETFPERUD";
+  const color = isPerud ? "green" : "yellow";
+  const dotColor = isPerud ? "rgb(2,251,126)" : "rgb(247,199,55)";
+  const showWindow = r.w !== lastW;
+  lastW = r.w;
+
+  const tr = document.createElement("tr");
+  if (r.pre) tr.className = "row-pre";
+
+  tr.innerHTML = `
+    <td>${showWindow ? r.w : ""}</td>
+    <td>
+      <span class="window-label">
+        <span class="window-dot" style="background:${dotColor}"></span>
+        ${r.etf}
+      </span>
+    </td>
+    <td>${fmtN(r.ord)}</td>
+    <td>${fmtN(r.usr)}</td>
+    <td>${fmtUSDFull(r.vol)}</td>
+    <td class="highlight ${r.pre ? '' : color}">${r.pre ? fmtN(r.nuevos) : "+" + fmtN(r.nuevos)}</td>
+  `;
+  tbody.appendChild(tr);
+});
+</script>
+</body>
+</html>
